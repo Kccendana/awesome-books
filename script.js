@@ -1,6 +1,6 @@
-const title = document.querySelector('#title');
-const author = document.querySelector('#author');
-const addButton = document.querySelector('#add');
+const title = document.querySelector('.book-title');
+const author = document.querySelector('.book-author');
+const addButton = document.querySelector('.add');
 let itemArray = [];
 
 let bookObject = {
@@ -12,7 +12,8 @@ addButton.addEventListener('click', () => {
     bookObject.title = title.value;
     bookObject.author = author.value;
     itemArray.push(bookObject);
-    localStorage.setItem(bookData, JSON.stringify(itemArray));
+    alert(itemArray)
+    localStorage.setItem('bookData', JSON.stringify(itemArray));
 })
 
 
