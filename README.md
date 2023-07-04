@@ -23,7 +23,6 @@
   - [Install](#install)
   - [Usage](#usage)
   - [Run tests](#run-tests)
-  - [Deployment](#deployment)
 - [👥 Authors](#authors)
 - [🔭 Future Features](#future-features)
 - [🤝 Contributing](#contributing)
@@ -68,7 +67,7 @@
 ## 🚀 Live Demo <a name="live-demo"></a>
 
 
-- [Live Demo Link]()
+- [Live Demo Link](https://kccendana.github.io/awesome-books/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -98,6 +97,25 @@ Clone this repository to your desired folder:
 To run the project, open it through live server or double click the index.html
 
 
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Run tests
+
+To run tests, run the following command:
+
+- Track HTML linter errors run:
+```
+npx hint .
+```
+- Track CSS linter errors run:
+```
+npx stylelint "**/*.{css,scss}"
+```
+- Track JavaScript linter errors run:
+```
+npx eslint .
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
