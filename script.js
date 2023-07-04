@@ -1,59 +1,72 @@
 /* eslint-disable no-use-before-define */
-const addButton = document.querySelector('#add');
-const itemArray = JSON.parse(localStorage.getItem('bookItems')) || [];
+/* eslint-disable max-classes-per-file */
 
-// Function to remove a book from the collection
-function removeBook(index) {
-  itemArray.splice(index, 1);
-  localStorage.setItem('bookItems', JSON.stringify(itemArray));
-  displayBooks();
-}
-// Function to display all books in the collection
-function displayBooks() {
-  const bookListDiv = document.querySelector('#book-container');
-  bookListDiv.innerHTML = ''; // Clear previous book list
-  // Iterate through the books and create HTML elements for each book
-  for (let i = 0; i < itemArray.length; i += 1) {
-    const book = itemArray[i];
-    // Create a div element for the book
-    const bookDiv = document.createElement('div');
-    bookDiv.classList.add('book');
-    // Create paragraph elements for the title and author
-    const title = document.createElement('p');
-    title.textContent = book.title;
-    const author = document.createElement('p');
-    author.textContent = book.author;
-    // Create a remove button for the book
-    const removeButton = document.createElement('button');
-    removeButton.textContent = 'Remove';
-    removeButton.addEventListener('click', () => {
-      removeBook(i);
-    });
-    const line = document.createElement('hr');
-    // Append the elements to the book div
-    bookDiv.appendChild(title);
-    bookDiv.appendChild(author);
-    bookDiv.appendChild(removeButton);
-    bookDiv.appendChild(line);
-    // Append the book div to the book list
-    bookListDiv.appendChild(bookDiv);
+class Book {
+  constructor(title, author) {
+    this.title = title;
+    this.author = author;
   }
 }
 
-function addBook(title, author) {
-  const newBook = { title, author };
-  itemArray.push(newBook);
-  localStorage.setItem('bookItems', JSON.stringify(itemArray));
-  displayBooks();
+class BookList {
+  constructor() {
+    this.booksArray = JSON.parse(localStorage.getItem('bookItems')) || [];
+  }
+
+  addBook(title, author) {
+    const book = new Book(title, author);
+    this.booksArray.push(book);
+    localStorage.setItem('bookItems', JSON.stringify(this.booksArray));
+    this.displayBooks();
+  }
+
+  removeBook(index) {
+    this.booksArray.splice(index, 1);
+    localStorage.setItem('bookItems', JSON.stringify(this.booksArray));
+    this.displayBooks();
+  }
+
+  displayBooks() {
+    const bookListDiv = document.querySelector('#book-container');
+    bookListDiv.innerHTML = '';
+    this.booksArray.forEach((book, index) => {
+      bookListDiv.innerHTML += `
+      <li><span><strong>"${book.title}"</strong> by <strong>${book.author}</strong></span><button class="button" id="remove" data-index="${index}">Remove</button></li>`;
+      bookListDiv.style.border = '2px solid';
+      const removeBtns = document.querySelectorAll('.button');
+
+      removeBtns.forEach((button) => {
+        button.addEventListener('click', (event) => {
+          const { index } = event.target.dataset;
+          this.removeBook(index);
+          if (this.booksArray.length === 0) {
+            bookListDiv.style.border = 'none';
+          }
+        });
+      });
+    });
+  }
 }
 
-addButton.addEventListener('click', () => {
+const booklist = new BookList();
+
+const form = document.querySelector('.form');
+
+form.addEventListener('submit', (event) => {
   const titleInput = document.querySelector('#title');
   const authorInput = document.querySelector('#author');
   const title = titleInput.value;
   const author = authorInput.value;
-  addBook(title, author);
+
+  if (title && author) {
+    booklist.addBook(title, author);
+    titleInput.value = '';
+    authorInput.value = '';
+  } else {
+    event.preventDefault();
+    titleInput.value = '';
+    authorInput.value = '';
+  }
 });
 
-// Display existing books on page load
-displayBooks();
+booklist.displayBooks();
