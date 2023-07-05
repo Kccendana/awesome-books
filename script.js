@@ -11,31 +11,31 @@ list.addEventListener('click', () => {
   listSect.style.display = 'block';
   contactSect.style.display = 'none';
   addNewForm.style.display = 'none';
-})
+});
 
 addNew.addEventListener('click', () => {
   addNewForm.style.display = 'flex';
   listSect.style.display = 'none';
   contactSect.style.display = 'none';
-})
+});
 
 contact.addEventListener('click', () => {
   contactSect.style.display = 'block';
   listSect.style.display = 'none';
   addNewForm.style.display = 'none';
-})
+});
 
 const displayDate = document.querySelector('.date');
-const monthName = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+const monthName = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const currentDate = new Date();
-date1 = [1, 11, 21, 31];
+const date1 = [1, 11, 21, 31];
 
 let ordinal;
 if (currentDate.getDate() in date1) {
   ordinal = 'st';
-}else if (currentDate.getDate() === 2 || currentDate.getDate() ===22) {
+} else if (currentDate.getDate() === 2 || currentDate.getDate() === 22) {
   ordinal = 'nd';
-} else if (currentDate.getDate() === 3 || currentDate.getDate() ===23) {
+} else if (currentDate.getDate() === 3 || currentDate.getDate() === 23) {
   ordinal = 'rd';
 } else {
   ordinal = 'th';
@@ -48,7 +48,7 @@ if (currentDate.getHours() < 12) {
   amPm = 'pm';
 }
 
-displayDate.textContent = `${monthName[currentDate.getMonth()]} ${currentDate.getDate()}${ordinal} ${currentDate.getFullYear()}, ${currentDate.getHours() - 12}:${currentDate.getMinutes()}:${currentDate.getSeconds()} ${amPm}`
+displayDate.textContent = `${monthName[currentDate.getMonth()]} ${currentDate.getDate()}${ordinal} ${currentDate.getFullYear()}, ${currentDate.getHours() - 12}:${currentDate.getMinutes()}:${currentDate.getSeconds()} ${amPm}`;
 class Book {
   constructor(title, author) {
     this.title = title;
@@ -59,7 +59,6 @@ class Book {
 class BookList {
   constructor() {
     this.booksArray = JSON.parse(localStorage.getItem('bookItems')) || [];
-
   }
 
   addBook(title, author) {
@@ -92,7 +91,7 @@ class BookList {
       <li><span><strong>"${book.title}"</strong> by <strong>${book.author}</strong></span><button class="button" id="remove" data-index="${index}">Remove</button></li>`;
       bookListDiv.style.border = '2px solid';
       const removeBtns = document.querySelectorAll('.button');
-     
+
       removeBtns.forEach((button) => {
         button.addEventListener('click', (event) => {
           const { index } = event.target.dataset;
