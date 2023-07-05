@@ -49,23 +49,34 @@ if (currentDate.getHours() < 12) {
 }
 
 displayDate.textContent = `${monthName[currentDate.getMonth()]} ${currentDate.getDate()}${ordinal} ${currentDate.getFullYear()}, ${currentDate.getHours() - 12}:${currentDate.getMinutes()}:${currentDate.getSeconds()} ${amPm}`;
-class Book {
-  constructor(title, author) {
-    this.title = title;
-    this.author = author;
-  }
-}
+
+// class Book {
+//   constructor(title, author) {
+//     this.title = title;
+//     this.author = author;
+//   }
+// }
 
 class BookList {
   constructor() {
     this.booksArray = JSON.parse(localStorage.getItem('bookItems')) || [];
+    this.bookListDiv = document.querySelector('#book-container');
+    this.booklistHeading = document.querySelector('.list-title');
+    this.form = document.querySelector('.form');
+    this.titleInput = document.querySelector('#title');
+    this.authorInput = document.querySelector('#author');
+    this.title = this.titleInput.value;
+    this.author = this.authorInput.value;
+
+    this.displayBooks();
+    this.addEventListeners();
   }
 
   addBook(title, author) {
-    const book = new Book(title, author);
+    const book = {title, author};
     this.booksArray.push(book);
     localStorage.setItem('bookItems', JSON.stringify(this.booksArray));
-    // this.displayBooks();
+    this.displayBooks();
   }
 
   removeBook(index) {
@@ -75,24 +86,21 @@ class BookList {
   }
 
   displayBooks() {
-    const bookListDiv = document.querySelector('#book-container');
-    bookListDiv.innerHTML = '';
+    this.bookListDiv.innerHTML = '';
 
-    const booklistHeading = document.querySelector('.list-title');
     if (this.booksArray.length === 0) {
-      bookListDiv.style.border = 'none';
-      booklistHeading.innerHTML = 'No book on the list';
+      this.bookListDiv.style.border = 'none';
+      this.booklistHeading.innerHTML = 'No book on the list';
     } else {
-      booklistHeading.innerHTML = 'All awesome books';
+      this.booklistHeading.innerHTML = 'All awesome books';
     }
 
     this.booksArray.forEach((book, index) => {
-      bookListDiv.innerHTML += `
+      this.bookListDiv.innerHTML += `
       <li><span><strong>"${book.title}"</strong> by <strong>${book.author}</strong></span><button class="button" id="remove" data-index="${index}">Remove</button></li>`;
-      bookListDiv.style.border = '2px solid';
-      const removeBtns = document.querySelectorAll('.button');
-
-      removeBtns.forEach((button) => {
+      this.bookListDiv.style.border = '2px solid';
+      this.removeBtns = document.querySelectorAll('.button');
+      this.removeBtns.forEach((button) => {
         button.addEventListener('click', (event) => {
           const { index } = event.target.dataset;
           this.removeBook(index);
@@ -100,27 +108,20 @@ class BookList {
       });
     });
   }
+
+  addEventListeners() {
+    this.form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      this.addBook(this.titleInput.value, this.authorInput.value);
+      this.titleInput.value = '';
+      this.authorInput.value = '';
+    });
+  }
+
+  static initialize() {
+    const booklist = new BookList();
+    return booklist;
+  }
 }
 
-const booklist = new BookList();
-
-const form = document.querySelector('.form');
-
-form.addEventListener('submit', (event) => {
-  const titleInput = document.querySelector('#title');
-  const authorInput = document.querySelector('#author');
-  const title = titleInput.value;
-  const author = authorInput.value;
-
-  if (title && author) {
-    booklist.addBook(title, author);
-    titleInput.value = '';
-    authorInput.value = '';
-  } else {
-    event.preventDefault();
-    titleInput.value = '';
-    authorInput.value = '';
-  }
-});
-
-booklist.displayBooks();
+BookList.initialize();
