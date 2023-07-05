@@ -1,5 +1,54 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable max-classes-per-file */
+const list = document.querySelector('.list');
+const addNew = document.querySelector('.add-new');
+const contact = document.querySelector('.contact');
+const listSect = document.querySelector('#list');
+const addNewForm = document.querySelector('#add-new');
+const contactSect = document.querySelector('#contact');
+
+list.addEventListener('click', () => {
+  listSect.style.display = 'block';
+  contactSect.style.display = 'none';
+  addNewForm.style.display = 'none';
+})
+
+addNew.addEventListener('click', () => {
+  addNewForm.style.display = 'flex';
+  listSect.style.display = 'none';
+  contactSect.style.display = 'none';
+})
+
+contact.addEventListener('click', () => {
+  contactSect.style.display = 'block';
+  listSect.style.display = 'none';
+  addNewForm.style.display = 'none';
+})
+
+const displayDate = document.querySelector('.date');
+const monthName = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+const currentDate = new Date();
+date1 = [1, 11, 21, 31];
+
+let ordinal;
+if (currentDate.getDate() in date1) {
+  ordinal = 'st';
+}else if (currentDate.getDate() === 2 || currentDate.getDate() ===22) {
+  ordinal = 'nd';
+} else if (currentDate.getDate() === 3 || currentDate.getDate() ===23) {
+  ordinal = 'rd';
+} else {
+  ordinal = 'th';
+}
+
+let amPm;
+if (currentDate.getHours() < 12) {
+  amPm = 'am';
+} else {
+  amPm = 'pm';
+}
+
+displayDate.textContent = `${monthName[currentDate.getMonth()]} ${currentDate.getDate()}${ordinal} ${currentDate.getFullYear()}, ${currentDate.getHours() - 12}:${currentDate.getMinutes()}:${currentDate.getSeconds()} ${amPm}`
 class Book {
   constructor(title, author) {
     this.title = title;
