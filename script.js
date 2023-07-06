@@ -25,30 +25,36 @@ contact.addEventListener('click', () => {
   addNewForm.style.display = 'none';
 });
 
-const displayDate = document.querySelector('.date');
-const monthName = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const currentDate = new Date();
-const date1 = [1, 11, 21, 31];
+function showDate() {
+  const displayDate = document.querySelector('.date');
+  const monthName = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const currentDate = new Date();
+  const date1 = [1, 11, 21, 31];
 
-let ordinal;
-if (currentDate.getDate() in date1) {
-  ordinal = 'st';
-} else if (currentDate.getDate() === 2 || currentDate.getDate() === 22) {
-  ordinal = 'nd';
-} else if (currentDate.getDate() === 3 || currentDate.getDate() === 23) {
-  ordinal = 'rd';
-} else {
-  ordinal = 'th';
+  let ordinal;
+  if (currentDate.getDate() in date1) {
+    ordinal = 'st';
+  } else if (currentDate.getDate() === 2 || currentDate.getDate() === 22) {
+    ordinal = 'nd';
+  } else if (currentDate.getDate() === 3 || currentDate.getDate() === 23) {
+    ordinal = 'rd';
+  } else {
+    ordinal = 'th';
+  }
+
+  let amPm;
+  if (currentDate.getHours() < 12) {
+    amPm = 'am';
+  } else {
+    amPm = 'pm';
+  }
+
+  displayDate.textContent = `${monthName[currentDate.getMonth()]} ${currentDate.getDate()}${ordinal} ${currentDate.getFullYear()}, ${currentDate.getHours () - 12}:${currentDate.getMinutes()}:${currentDate.getSeconds()} ${amPm}`;
 }
 
-let amPm;
-if (currentDate.getHours() < 12) {
-  amPm = 'am';
-} else {
-  amPm = 'pm';
-}
+setInterval(showDate, 1000);
 
-displayDate.textContent = `${monthName[currentDate.getMonth()]} ${currentDate.getDate()}${ordinal} ${currentDate.getFullYear()}, ${currentDate.getHours() - 12}:${currentDate.getMinutes()}:${currentDate.getSeconds()} ${amPm}`;
+
 
 // class Book {
 //   constructor(title, author) {
