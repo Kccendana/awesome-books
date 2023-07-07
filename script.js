@@ -49,12 +49,10 @@ function showDate() {
     amPm = 'pm';
   }
 
-  displayDate.textContent = `${monthName[currentDate.getMonth()]} ${currentDate.getDate()}${ordinal} ${currentDate.getFullYear()}, ${currentDate.getHours () - 12}:${currentDate.getMinutes()}:${currentDate.getSeconds()} ${amPm}`;
+  displayDate.textContent = `${monthName[currentDate.getMonth()]} ${currentDate.getDate()}${ordinal} ${currentDate.getFullYear()}, ${currentDate.getHours() - 12}:${currentDate.getMinutes()}:${currentDate.getSeconds()} ${amPm}`;
 }
 
 setInterval(showDate, 1000);
-
-
 
 // class Book {
 //   constructor(title, author) {
@@ -79,7 +77,7 @@ class BookList {
   }
 
   addBook(title, author) {
-    const book = {title, author};
+    const book = { title, author };
     this.booksArray.push(book);
     localStorage.setItem('bookItems', JSON.stringify(this.booksArray));
     this.displayBooks();
